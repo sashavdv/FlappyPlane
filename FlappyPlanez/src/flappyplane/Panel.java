@@ -5,37 +5,94 @@
  */
 package flappyplane;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferStrategy;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
  *
  * @author 6 TSO Informatica 1
  */
-public class Panel extends JPanel {
+public class Panel extends JPanel implements KeyListener {
 
-    ArrayList<Pipe> Pipes = new ArrayList<>();
-   
+    public ArrayList<Pipe> Pipes = new ArrayList<>();
+    public int y = 250;
     public boolean gameOver = false;
     boolean running = false;
+    public double velocity;
+    public double gravity = 9.81;
+    public double weight = 0.3;
 
     public Panel() {
-        
-
         Dimension windowsize = new Dimension(1000, 500);
         setPreferredSize(windowsize);
-
-        //repaint();
     }
 
-  //  @Override
+    public void Drop() {
+        y = (int) (y + velocity * gravity * weight);
+        velocity = velocity + 0.06;
+        if (velocity > 1) {
+            velocity = 1;
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+        System.out.println("Key pressed!");
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            y -= 50;
+        }
+    }
+
+    public void addPipes() {
+        for (int i = 0; i < Pipes.size(); i++) {
+            Pipe pipe = Pipes.get(i);
+            pipe.ChangeDistanceToPlayer();
+
+            if (pipe.GetXDistance() == 600) {
+                Pipe zpipe;
+                int random = (int) (399 * Math.random()) + 100;
+                zpipe = new Pipe(random);
+                Pipes.add(zpipe);
+            }
+            if (pipe.GetXDistance() <= -100) {
+                Pipes.remove(pipe);
+            }
+        }
+    }
+
+}
+//    addKeyListener(new KeyListener() {
+//            Listener(new KeyListener() {
+//           @Override
+//            public void keyTyped(KeyEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void keyPressed(KeyEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void keyReleased(KeyEvent e) {
+//                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+//                    y += -50;
+//                }
+//            }
+//        });
+//  @Override
 //    public void paintComponent(Graphics g) {
 //        g.clearRect(0, 0, 1000, 500);
 //        
@@ -61,6 +118,5 @@ public class Panel extends JPanel {
 //
 //            // System.exit(0);
 //        }
-   // }
+// }
 
-}

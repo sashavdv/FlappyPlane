@@ -5,6 +5,7 @@
  */
 package flappyplane;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -24,10 +25,11 @@ import javax.swing.Timer;
  */
 public class FlappyPlane extends JFrame implements Runnable {
 
-    boolean test = false;
-    boolean running = false;
     Image speler;
     Image background;
+    boolean test = false;
+    boolean running = false;
+    public Panel panel;
 
     /**
      * @param args the command line arguments
@@ -39,72 +41,21 @@ public class FlappyPlane extends JFrame implements Runnable {
 
     public static Timer t1;
     //public Panel panel = new Panel();
-    public int y = 250;
 
     public FlappyPlane() {
-        speler = new ImageIcon(getClass().getResource("/crocoz.png")).getImage();
-        background = new ImageIcon(getClass().getResource("/background.png")).getImage();
-        this.setVisible(true);
+
         this.setPreferredSize(new Dimension(1000, 500));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.pack();
+        panel = new Panel();
+        panel.addKeyListener(panel);
+        panel.setFocusable(true);
+        add(panel);
+        this.setVisible(true);
         this.Start();
- addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-        //                  if (y > 0 ) {
-                    //                        t1.start();
-                    y += -50;
-                }
-            }
-        });
-//
-//        t1 = new Timer(10, new ActionListener() {
-//
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//               y++;
-//
-//            
-//
-//                //Check if player dies
-//                for (int i = 0; i < panel.Pipes.size(); i++) {
-//                    Pipe pipe = panel.Pipes.get(i);
-//                    if ((pipe.GetXDistance() <= 200 && pipe.GetXDistance() <= 225) && (y >= pipe.GetYHeight() - 60 ||y <= pipe.GetYHeight() - 150)) {
-//                        panel.gameOver = true;
-//                    }
-//                    System.out.println(pipe.GetXDistance());
-//                }
-//
-//                if (y > 450) {
-//                    panel.gameOver = true;
-//                }
-//                panel.repaint();
-//
-//            }
-//        });
-//
-//        t1.setRepeats(true);
-//
-//        this.add(panel);
-//        this.setTitle("hallo");
-//        panel.repaint();
-//        this.pack();
-//       
-//
-//        });
+        speler = new ImageIcon(getClass().getResource("/crocoz.png")).getImage();
+        background = new ImageIcon(getClass().getResource("/background.png")).getImage();
     }
 
     public synchronized void Start() {
@@ -122,20 +73,60 @@ public class FlappyPlane extends JFrame implements Runnable {
         while (running) {
             tick();
             render();
-               
+           // panel.addPipes();          
         }
 
     }
 
     public void tick() {
-        y++;
-       try {
+        panel.Drop();
+        try {
             Thread.sleep(3);
-         } catch (Exception e) {}
-     
+        } catch (Exception e) {
+        }
 
     }
-    // //for (int i = 0; i < Panel.Pipes.size(); i++) {
+
+    public void render() {
+        BufferStrategy bs = getBufferStrategy();
+        if (bs == null) {
+            createBufferStrategy(3);
+            return;
+        }
+        Graphics g = bs.getDrawGraphics();
+        g.drawImage(background, 0, 0, this);
+        g.drawImage(speler, 80, panel.y, this);
+        g.dispose();
+//        for (int i = 0; i < panel.Pipes.size(); i++) {
+//            Pipe fPipe = panel.Pipes.get(i);
+//            g.setColor(Color.GRAY);
+//            g.fillRect(fPipe.GetXDistance(), fPipe.GetYHeight(), fPipe.GetWidth(), (fPipe.GetHeight() - 150));
+//            g.setColor(Color.RED);
+//            g.fillRect(fPipe.GetXDistance(), 0, fPipe.GetWidth(), (fPipe.GetPipeTopHeight() - 150));
+//        }
+
+        bs.show();
+    }
+}
+
+//   
+//                //Check if player dies
+//                for (int i = 0; i < panel.Pipes.size(); i++) {
+//                    Pipe pipe = panel.Pipes.get(i);
+//                    if ((pipe.GetXDistance() <= 200 && pipe.GetXDistance() <= 225) && (y >= pipe.GetYHeight() - 60 ||y <= pipe.GetYHeight() - 150)) {
+//                        panel.gameOver = true;
+//                    }
+//                    System.out.println(pipe.GetXDistance());
+//                }
+//
+//                if (y > 450) {
+//                    panel.gameOver = true;
+//                }
+//                panel.repaint();
+//
+//            }
+//        });
+// //for (int i = 0; i < Panel.Pipes.size(); i++) {
 //                    Pipe pipe = panel.Pipes.get(i);
 //                    pipe.ChangeDistanceToPlayer();
 //
@@ -149,40 +140,26 @@ public class FlappyPlane extends JFrame implements Runnable {
 //                        panel.Pipes.remove(pipe);
 //                    }
 //                }
-        // if (panel.gameOver) {
+// if (panel.gameOver) {
+//   System.exit(0);
+//  }
+//                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+//                    if (y > 0 ) {
+//                        t1.start();
+//                        y += -30;
+//                        if (!test) {
+//                            Pipe zpipe;
+//                            int random = (int) (399 * Math.random()) + 100;
+//                            zpipe = new Pipe(random);
+//                            panel.Pipes.add(zpipe);
+//                            test = true;
+//                        }
+//                        panel.repaint();
+//                    }
+//                }
+//            }
+// }
+//      
+//
+//          
 
-        //   System.exit(0);
-    //  }
-    //                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-    //                    if (y > 0 ) {
-    //                        t1.start();
-    //                        y += -30;
-    //                        if (!test) {
-    //                            Pipe zpipe;
-    //                            int random = (int) (399 * Math.random()) + 100;
-    //                            zpipe = new Pipe(random);
-    //                            panel.Pipes.add(zpipe);
-    //                            test = true;
-    //                        }
-    //                        panel.repaint();
-    //                    }
-    //                }
-    //            }
-    // }
-        //      
-    //
-    //          
-    public void render() {
-        BufferStrategy bs = getBufferStrategy();
-        if (bs == null) {
-            createBufferStrategy(3);
-            return;
-        }
-        Graphics g = bs.getDrawGraphics();
-        g.drawImage(background, 0, 0, this);
-        g.drawImage(speler, 80, y, this);
-        g.dispose();
-        bs.show();
-    }
-
-}
