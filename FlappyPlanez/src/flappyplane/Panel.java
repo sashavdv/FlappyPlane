@@ -5,7 +5,9 @@
  */
 package flappyplane;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -32,7 +34,7 @@ public class Panel extends JPanel implements KeyListener {
 
     public void Drop() {
         y = (int) (y + velocity * gravity * weight);
-        velocity = velocity + 0.06;
+        velocity = velocity + 0.03;
         if (velocity > 1) {
             velocity = 1;
         }
@@ -48,10 +50,8 @@ public class Panel extends JPanel implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-
-        System.out.println("Key pressed!");
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            y -= 50;
+            velocity = -1;
         }
     }
 
@@ -72,41 +72,20 @@ public class Panel extends JPanel implements KeyListener {
         }
     }
 
+    @Override
+    public void paintComponent(Graphics g) {
+        //Random pipes
+        for (int i = 0; i < Pipes.size(); i++) {
+            Pipe fPipe = Pipes.get(i);
+            g.setColor(Color.GRAY);
+            g.fillRect(fPipe.GetXDistance(), fPipe.GetYHeight(), fPipe.GetWidth(), (fPipe.GetHeight() - 150));
+            g.setColor(Color.RED);
+            g.fillRect(fPipe.GetXDistance(), 0, fPipe.GetWidth(), (fPipe.GetPipeTopHeight() - 150));
+        }
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 450, 1000, 50);
+    }
 }
-//    addKeyListener(new KeyListener() {
-//            Listener(new KeyListener() {
-//           @Override
-//            public void keyTyped(KeyEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void keyReleased(KeyEvent e) {
-//                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-//                    y += -50;
-//                }
-//            }
-//        });
-//  @Override
-//    public void paintComponent(Graphics g) {
-//        g.clearRect(0, 0, 1000, 500);
-//        
-//
-//        //Random pipes
-//        for (int i = 0; i < Pipes.size(); i++) {
-//            Pipe fPipe = Pipes.get(i);
-//            g.setColor(Color.GRAY);
-//            g.fillRect(fPipe.GetXDistance(), fPipe.GetYHeight(), fPipe.GetWidth(), (fPipe.GetHeight() - 150));
-//            g.setColor(Color.RED);
-//            g.fillRect(fPipe.GetXDistance(), 0, fPipe.GetWidth(), (fPipe.GetPipeTopHeight() - 150));
-//        }
-//        g.setColor(Color.BLACK);
-//        g.fillRect(0, 450, 1000, 50);
 //        //gameover
 //        if (gameOver) {
 //            g.setColor(Color.WHITE);

@@ -73,13 +73,13 @@ public class FlappyPlane extends JFrame implements Runnable {
         while (running) {
             tick();
             render();
-           // panel.addPipes();          
         }
 
     }
 
     public void tick() {
         panel.Drop();
+        panel.addPipes();
         try {
             Thread.sleep(3);
         } catch (Exception e) {
@@ -97,14 +97,6 @@ public class FlappyPlane extends JFrame implements Runnable {
         g.drawImage(background, 0, 0, this);
         g.drawImage(speler, 80, panel.y, this);
         g.dispose();
-//        for (int i = 0; i < panel.Pipes.size(); i++) {
-//            Pipe fPipe = panel.Pipes.get(i);
-//            g.setColor(Color.GRAY);
-//            g.fillRect(fPipe.GetXDistance(), fPipe.GetYHeight(), fPipe.GetWidth(), (fPipe.GetHeight() - 150));
-//            g.setColor(Color.RED);
-//            g.fillRect(fPipe.GetXDistance(), 0, fPipe.GetWidth(), (fPipe.GetPipeTopHeight() - 150));
-//        }
-
         bs.show();
     }
 }
@@ -123,43 +115,4 @@ public class FlappyPlane extends JFrame implements Runnable {
 //                    panel.gameOver = true;
 //                }
 //                panel.repaint();
-//
-//            }
-//        });
-// //for (int i = 0; i < Panel.Pipes.size(); i++) {
-//                    Pipe pipe = panel.Pipes.get(i);
-//                    pipe.ChangeDistanceToPlayer();
-//
-//                    if (pipe.GetXDistance() == 600) {
-//                        Pipe zpipe;
-//                        int random = (int) (399 * Math.random()) + 100;
-//                        zpipe = new Pipe(random);
-//                        panel.Pipes.add(zpipe);
-//                    }
-//                    if (pipe.GetXDistance() <= -100) {
-//                        panel.Pipes.remove(pipe);
-//                    }
-//                }
-// if (panel.gameOver) {
-//   System.exit(0);
-//  }
-//                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-//                    if (y > 0 ) {
-//                        t1.start();
-//                        y += -30;
-//                        if (!test) {
-//                            Pipe zpipe;
-//                            int random = (int) (399 * Math.random()) + 100;
-//                            zpipe = new Pipe(random);
-//                            panel.Pipes.add(zpipe);
-//                            test = true;
-//                        }
-//                        panel.repaint();
-//                    }
-//                }
-//            }
-// }
-//      
-//
-//          
 
